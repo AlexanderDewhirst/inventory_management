@@ -1,4 +1,5 @@
 class Item < ApplicationRecord
-    has_many :item_attributes
-    has_many :additional_attributes, through: :item_attributes
+    has_one :category
+    has_many :item_attr
+    has_many :item_attributes, through: :item_attr
 end

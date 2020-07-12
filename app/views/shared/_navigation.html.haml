@@ -1,19 +1,24 @@
 %nav.navbar.navbar-expand-lg.navbar-light.bg-light
     .container
         .navbar-brand
-            BidOps Inventory
+            BidOps IMS
         .navbar-right
             %ul.navbar-nav
-                %li.nav-item.active
-                    = link_to "Home", pages_path, class: 'nav-link'
+                %li.nav-item{ class: "#{active_nav(request_filtered_params, :home)}" }
+                    = link_to "Home", root_path, class: 'nav-link'
                 - if !user_signed_in?
                     %li.nav-item
+                        -# { class: "#{active_nav(request_filtered_params, :login)}" }
                         = link_to "Log In", new_user_session_path, class: 'nav-link'
                     %li.nav-item
+                        -# { class: "#{active_nav(request_filtered_params, :signup)}" }
                         = link_to "Sign Up", new_user_registration_path, class: 'nav-link'
                 - else
-                    %li.nav-item
-                        -# TODO: inventory_path
+                    %li.nav-item{ class: "#{active_nav(request_filtered_params, :inventory)}" }
                         = link_to "Inventory", items_path, class: 'nav-link'
+                    %li.nav-item{ class: "#{active_nav(request_filtered_params, :categories)}" }
+                        = link_to "Categories", categories_path, class: 'nav-link'
+                    %li.nav-item{ class: "#{active_nav(request_filtered_params, :attributes)}" }
+                        = link_to "Attributes", attributes_path, class: 'nav-link'
                     %li.nav-item
-                        = link_to "Log Out", destroy_user_session_path, method: :delete, class: 'nav-link'
+                        = link_to "Log Out", destroy_user_session_path, method: :delete, class: 'nav-link text-danger'

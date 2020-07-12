@@ -1,22 +1,25 @@
 <%= form_with(model: attribute, local: true) do |form| %>
   <% if attribute.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(attribute.errors.count, "error") %> prohibited this attribute from being saved:</h2>
-
-      <ul>
-        <% attribute.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render partial: 'shared/flash_message', type: 'error' %>
   <% end %>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id %>
+  <div class='row'>
+    <div class='col-6'>
+      <div class='form-group'>
+        <%= form.label :title %>
+        <%= form.text_field :title, class: 'form-control' %>
+      </div>
+    </div>
+    <div class='col-6'>
+      <div class='form-group'>
+        <%= form.label :value %>
+        <%= form.text_field :value, class: 'form-control'%>
+      </div>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="actions d-flex align-items-baseline justify-content-between">
+    <%= link_to "Back", attributes_path, class: 'btn btn-default p-2' %>
+    <%= form.submit "Create", class: 'btn btn-primary p-2' %>
   </div>
 <% end %>

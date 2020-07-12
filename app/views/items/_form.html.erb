@@ -1,22 +1,15 @@
 <%= form_with(model: item, local: true) do |form| %>
   <% if item.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
-
-      <ul>
-        <% item.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render partial: "shared/flash_message", type: 'error' %>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :category_id %>
-    <%= form.number_field :category_id %>
+    <%= form.number_field :category_id, class: 'form-control' %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="actions d-flex align-items-baseline justify-content-between">
+    <%= link_to 'Back', items_path, class: 'btn btn-default p-2' %>
+    <%= form.submit "Create", class: 'btn btn-primary p-2' %>
   </div>
 <% end %>

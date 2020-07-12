@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :categories
   resources :attributes
   resources :items
   devise_for :users, path_names: {
@@ -8,9 +9,7 @@ Rails.application.routes.draw do
   }
   resources :users
 
-  resource :pages, path: '' do
-    get :index
-  end
+  resource :pages, only: [:index]
 
   root to: "pages#index"
 end
