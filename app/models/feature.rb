@@ -6,4 +6,9 @@ class Feature < ApplicationRecord
 
     before_validation { self.title = self.title.downcase }
     before_validation { self.value = self.value.downcase }
+
+
+    def to_s
+        "#{title.humanize}: #{value.humanize}"
+    end
 end

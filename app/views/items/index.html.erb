@@ -24,7 +24,10 @@
             <td><%= item.name.humanize %></td>
             <td><%= item.category&.title %></td>
             <td colspan='3'><%=  item.list_of_features %></td>
-            <td><%= link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+            <td>
+              <%= link_to 'Duplicate', duplicate_item_path(item), method: :post, class: 'btn btn-primary' %>
+              <%= link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+            </td>
           </tr>
         <% end %>
       </tbody>

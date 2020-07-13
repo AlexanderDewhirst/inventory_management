@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :categories
   resources :features
-  resources :items
+  resources :items do
+    member do
+      post :duplicate
+    end
+  end
   devise_for :users, path_names: {
     sign_in: 'login',
     sign_out: 'logout',

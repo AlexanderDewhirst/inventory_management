@@ -2,6 +2,12 @@
   <div class='d-flex flex-column mt-5'>
     <div class='p-2'>
       <p>
+        <strong>Name:</strong>
+        <%= @item.name.humanize %>
+      </p>
+    </div>
+    <div class='p-2'>
+      <p>
         <strong>Category:</strong>
         <%= @item.category&.title %>
       </p>

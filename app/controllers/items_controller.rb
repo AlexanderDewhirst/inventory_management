@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy, :duplicate]
+  before_action :set_features, only: [:new, :edit]
+  before_action :set_categories, only: [:new, :edit]
 
   # GET /items
   # GET /items.json
@@ -33,7 +35,7 @@ class ItemsController < ApplicationController
         params['feature_ids'].each do |feature_id|
           item_features_attributes << ({ item_id: @item.id, feature_id: feature_id })
         end
-        ItemFeature.create item_features_attributes
+        ItemFeature.first_or_create item_features_attributes
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
@@ -48,13 +50,12 @@ class ItemsController < ApplicationController
   def update
     item_features_attributes = []
 
-    binding.pry
     respond_to do |format|
       if @item.update(item_params)
         params['feature_ids'].each do |feature_id|
           item_features_attributes << ({ item_id: @item.id, feature_id: feature_id })
         end
-        ItemFeature.create item_features_attributes
+        ItemFeature.first_or_create item_features_attributes
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }
       else
@@ -74,7 +75,27 @@ class ItemsController < ApplicationController
     end
   end
 
+  def duplicate
+    new_item = @item.duplicate
+    feature_ids = @item.features.collect(&:id)
+    Item.transaction do
+      new_item.save!
+      feature_ids.each do |feature_id|
+        ItemFeature.create!(item_id: new_item.id, feature_id: feature_id)
+      end
+    end
+    redirect_to items_url, notice: 'Item was successfully duplicated.'
+  end
+
   private
+    def set_categories
+      @categories = Category.all
+    end
+
+    def set_features
+      @features = Feature.all
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_item
       @item = Item.find(params[:id])

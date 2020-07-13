@@ -3,14 +3,19 @@
     <%= render partial: "shared/flash_message", type: 'error' %>
   <% end %>
 
+  <div class='form-group'>
+    <%= form.label :name %>
+    <%= form.text_field :name, required: true, class: 'form-control' %>
+  </div>
+
   <div class="form-group">
     <%= form.label :category_id %>
-    <%= form.select :category_id, options_from_collection_for_select(Category.all, :id, :title), {}, class: 'form-control' %>
+    <%= form.select :category_id, options_from_collection_for_select(categories, :id, :title), {required: true}, class: 'form-control' %>
   </div>
 
   <div class='form-group'>
-    <%= label_tag "Features" %>
-    <%= select_tag "feature_ids[]", options_from_collection_for_select(Feature.all, :id, :title), {multiple: true, size: 6, class: 'form-control'} %>
+    <%= label_tag "features" %>
+    <%= select_tag "feature_ids[]", options_from_collection_for_select(features, :id, :to_s, item.selected_features), {multiple: true, size: 6, class: 'form-control'} %>
   </div>
 
   <div class="actions d-flex align-items-baseline justify-content-between">

@@ -15,4 +15,13 @@ class Item < ApplicationRecord
         output_str.chomp(', ')
     end
 
+    def duplicate
+        self.dup
+    end
+
+    # For scalability and best coding practices, if this were a larger project then I would use a decorator or view_model to provide this method.
+    def selected_features
+        ItemFeature.where(item_id: self.id, feature_id: Feature.all.collect(&:id)).collect(&:feature_id)
+    end
+
 end
