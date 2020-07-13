@@ -1,8 +1,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, only: [:show, :edit, :update, :destroy, :duplicate]
-  before_action :set_features, only: [:new, :edit]
-  before_action :set_categories, only: [:new, :edit]
+  before_action :set_features, only: [:new, :create, :edit, :update]
+  before_action :set_categories, only: [:new, :create, :edit, :update]
 
   # GET /items
   # GET /items.json
@@ -27,15 +27,19 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(item_params)
-    item_feature_attributes = []
+    @item = current_user.items.new(item_params)
+    item_features_attributes = []
 
     respond_to do |format|
       if @item.save
-        params['feature_ids'].each do |feature_id|
-          item_features_attributes << ({ item_id: @item.id, feature_id: feature_id })
+        if params['feature_ids'].present?
+          params['feature_ids'].each do |feature_id|
+            item_features_attributes << ({ item_id: @item.id, feature_id: feature_id.to_i })
+          end
         end
-        ItemFeature.first_or_create item_features_attributes
+        item_features_attributes.each do |i_f_attributes|
+          ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
+        end
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
@@ -52,10 +56,14 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.update(item_params)
-        params['feature_ids'].each do |feature_id|
-          item_features_attributes << ({ item_id: @item.id, feature_id: feature_id })
+        if params['feature_ids'].present?
+          params['feature_ids'].each do |feature_id|
+            item_features_attributes << ({ item_id: @item.id, feature_id: feature_id.to_i })
+          end
         end
-        ItemFeature.first_or_create item_features_attributes
+        item_features_attributes.each do |i_f_attributes|
+          ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
+        end
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }
       else
@@ -103,6 +111,6 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:category_id)
+      params.require(:item).permit(:category_id, :name, :amount)
     end
 end

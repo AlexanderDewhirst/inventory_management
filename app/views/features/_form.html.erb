@@ -1,19 +1,19 @@
 <%= form_with(model: feature, local: true) do |form| %>
   <% if feature.errors.any? %>
-    <%= render partial: 'shared/flash_message', type: 'error' %>
+    <%= render partial: 'shared/flash_message', locals: { alert_type: 'danger', msg: feature.errors.full_messages.to_sentence } %>
   <% end %>
 
   <div class='row'>
     <div class='col-6'>
       <div class='form-group'>
         <%= form.label :title %>
-        <%= form.text_field :title, class: 'form-control' %>
+        <%= form.text_field :title, required: true, class: 'form-control' %>
       </div>
     </div>
     <div class='col-6'>
       <div class='form-group'>
         <%= form.label :value %>
-        <%= form.text_field :value, class: 'form-control' %>
+        <%= form.text_field :value, required: true, class: 'form-control' %>
       </div>
     </div>
   </div>

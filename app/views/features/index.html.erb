@@ -10,6 +10,7 @@
           <th scope='col'>ID</th>
           <th scope='col'>Title</th>
           <th scope='col'>Value</th>
+          <th scope='col'>User</th>
         </tr>
       </thead>
 
@@ -19,6 +20,7 @@
             <td><%= link_to feature.to_param, feature_path(feature) %></td>
             <td><%= feature.title&.humanize %>
             <td><%= feature.value&.humanize %>
+            <td><%= feature.user.email %>
           </tr>
         <% end %>
       </tbody>

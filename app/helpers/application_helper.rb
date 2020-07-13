@@ -4,8 +4,8 @@ module ApplicationHelper
         case level.to_sym
             when :notice then "alert alert-success"
             when :success then "alert alert-success"
-            when :error then "alert alert-error"
-            when :alert then "alert alert-error"
+            when :danger then "alert alert-danger"
+            when :alert then "alert alert-danger"
         end
     end
 

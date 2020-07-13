@@ -2,12 +2,6 @@
   <div class='d-flex flex-column mt-5'>
     <div class='p-2'>
       <p>
-        <strong>User:</strong>
-        <%= @feature.user.email %>
-      </p>
-    </div>
-    <div class='p-2'>
-      <p>
         <strong>Title:</strong>
         <%= @feature.title&.humanize %>
       </p>
@@ -16,6 +10,12 @@
       <p>
         <strong>Value:</strong>
         <%= @feature.value&.humanize %>
+      </p>
+    </div>
+    <div class='p-2'>
+      <p>
+        <strong>User:</strong>
+        <%= @feature.user.email %>
       </p>
     </div>
   </div>

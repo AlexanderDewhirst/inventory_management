@@ -1,6 +1,6 @@
 <%= form_with(model: item, local: true) do |form| %>
   <% if item.errors.any? %>
-    <%= render partial: "shared/flash_message", type: 'error' %>
+    <%= render partial: "shared/flash_message", locals: { alert_type: 'danger', msg: item.errors.full_messages.to_sentence } %>
   <% end %>
 
   <div class='form-group'>
@@ -16,6 +16,11 @@
   <div class='form-group'>
     <%= label_tag "features" %>
     <%= select_tag "feature_ids[]", options_from_collection_for_select(features, :id, :to_s, item.selected_features), {multiple: true, size: 6, class: 'form-control'} %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :amount %>
+    <%= form.number_field :amount, class: 'form-control' %>
   </div>
 
   <div class="actions d-flex align-items-baseline justify-content-between">

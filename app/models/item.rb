@@ -3,6 +3,7 @@ class Item < ApplicationRecord
     has_many :features, through: :item_features
 
     belongs_to :category
+    belongs_to :user
 
     before_validation { self.name = self.name.downcase }
 

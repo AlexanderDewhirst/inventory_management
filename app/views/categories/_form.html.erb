@@ -1,6 +1,6 @@
 <%= form_with(model: category, local: true) do |form| %>
   <% if category.errors.any? %>
-    <%= render partial: "shared/flash_message", type: 'error' %>
+    <%= render partial: "shared/flash_message", locals: { alert_type: 'danger', msg: category.errors.full_messages.to_sentence } %>
   <% end %>
 
   <div class="form-group">

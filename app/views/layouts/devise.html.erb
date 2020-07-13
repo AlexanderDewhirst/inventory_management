@@ -15,7 +15,7 @@
             <%= yield %>
         </div>
         <% flash.each do |type, msg| %>
-            <%= render partial: "shared/flash_message", locals: { type: type, msg: msg } %>
+            <%= render partial: "shared/flash_message", locals: { alert_type: type, msg: msg } %>
         <% end %>
     </body>
 </html>

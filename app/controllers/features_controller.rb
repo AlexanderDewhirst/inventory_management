@@ -25,7 +25,7 @@ class FeaturesController < ApplicationController
   # POST /features
   # POST /features.json
   def create
-    @feature = Feature.new(feature_params)
+    @feature = current_user.features.new(feature_params)
 
     respond_to do |format|
       if @feature.save

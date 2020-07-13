@@ -13,6 +13,8 @@
           <th scope='col'>Name</th>
           <th scope='col'>Category</th>
           <th scope='col' colspan='3'>Features</th>
+          <th scope='col'>Amount</th>
+          <th scope='col'>User</th>
           <th scope='col'></th>
         </tr>
       </thead>
@@ -24,6 +26,8 @@
             <td><%= item.name.humanize %></td>
             <td><%= item.category&.title %></td>
             <td colspan='3'><%=  item.list_of_features %></td>
+            <td><%= item.amount %></td>
+            <td><%= item.user.email %></td>
             <td>
               <%= link_to 'Duplicate', duplicate_item_path(item), method: :post, class: 'btn btn-primary' %>
               <%= link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
