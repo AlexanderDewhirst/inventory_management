@@ -26,9 +26,14 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(item_params)
+    item_feature_attributes = []
 
     respond_to do |format|
       if @item.save
+        params['feature_ids'].each do |feature_id|
+          item_features_attributes << ({ item_id: @item.id, feature_id: feature_id })
+        end
+        ItemFeature.create item_features_attributes
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
@@ -41,8 +46,15 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1
   # PATCH/PUT /items/1.json
   def update
+    item_features_attributes = []
+
+    binding.pry
     respond_to do |format|
       if @item.update(item_params)
+        params['feature_ids'].each do |feature_id|
+          item_features_attributes << ({ item_id: @item.id, feature_id: feature_id })
+        end
+        ItemFeature.create item_features_attributes
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }
       else

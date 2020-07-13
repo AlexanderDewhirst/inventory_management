@@ -6,8 +6,12 @@
         <%= @item.category&.title %>
       </p>
     </div>
-
-    <%# Loop Features %>
+    <div class='p-2'>
+      <p>
+        <strong>Feature:</strong>
+        <%= @item.list_of_features %>
+      </p>
+    </div>
   </div>
 
   <div class='action d-flex align-items-baseline justify-content-between'>

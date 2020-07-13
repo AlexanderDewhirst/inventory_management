@@ -10,11 +10,11 @@
 
   <div class='form-group'>
     <%= label_tag "Features" %>
-    <%= select_tag "feature_ids[]", options_for_select(Feature.all.collect(&:title)), {multiple: true, size: 6, class: 'form-control'} %>
+    <%= select_tag "feature_ids[]", options_from_collection_for_select(Feature.all, :id, :title), {multiple: true, size: 6, class: 'form-control'} %>
   </div>
 
   <div class="actions d-flex align-items-baseline justify-content-between">
     <%= link_to 'Back', items_path, class: 'btn btn-secondary p-2' %>
-    <%= form.submit "Create", class: 'btn btn-primary p-2' %>
+    <%= form.submit "Submit", class: 'btn btn-primary p-2' %>
   </div>
 <% end %>
