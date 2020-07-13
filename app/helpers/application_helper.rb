@@ -37,8 +37,8 @@ module ApplicationHelper
                 controller: [:categories],
                 action: [:index, :new, :edit, :show]
             },
-            attributes: {
-                controller: [:attributes],
+            features: {
+                controller: [:features],
                 action: [:index, :new, :edit, :show]
             }
         }

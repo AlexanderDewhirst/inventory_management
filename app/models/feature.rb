@@ -1,6 +1,6 @@
-class Attribute < ApplicationRecord
-    has_many :item_attributes, dependent: :destroy
-    has_many :items, through: :item_attributes
+class Feature < ApplicationRecord
+    has_many :item_features, dependent: :destroy
+    has_many :items, through: :item_features
 
     belongs_to :user
 

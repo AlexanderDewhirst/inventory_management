@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
-    has_many :item_attr, dependent: :destroy
-    has_many :item_attributes, through: :item_attr
+    has_many :item_features, dependent: :destroy
+    has_many :features, through: :item_features
 
     belongs_to :category
 

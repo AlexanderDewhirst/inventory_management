@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :categories
-  resources :attributes
+  resources :features
   resources :items
   devise_for :users, path_names: {
     sign_in: 'login',

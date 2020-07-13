@@ -1,7 +1,7 @@
 <div class='container'>
   <div class='d-flex mt-5 align-items-center justify-content-between'>
-    <h1>Attributes</h1>
-    <%= link_to "New", new_attribute_path, class: 'btn btn-primary' %>
+    <h1>Features</h1>
+    <%= link_to "New", new_feature_path, class: 'btn btn-primary' %>
   </div>
   <div class='d-flex mt-3 justify-content-between'>
     <table class='table'>
@@ -14,11 +14,11 @@
       </thead>
 
       <tbody>
-        <% @attributes.each do |attribute| %>
+        <% @features.each do |feature| %>
           <tr>
-            <td><%= link_to attribute.to_param, attribute_path(attribute) %></td>
-            <td><%= attribute.title&.humanize %>
-            <td><%= attribute.value&.humanize %>
+            <td><%= link_to feature.to_param, feature_path(feature) %></td>
+            <td><%= feature.title&.humanize %>
+            <td><%= feature.value&.humanize %>
           </tr>
         <% end %>
       </tbody>
