@@ -5,11 +5,16 @@
 
   <div class="form-group">
     <%= form.label :category_id %>
-    <%= form.number_field :category_id, class: 'form-control' %>
+    <%= form.select :category_id, options_from_collection_for_select(Category.all, :id, :title), {}, class: 'form-control' %>
+  </div>
+
+  <div class='form-group'>
+    <%= label_tag "Attributes" %>
+    <%= select_tag "attribute_ids[]", options_for_select(Attribute.all.collect(&:title)), {multiple: true, size: 6, class: 'form-control'} %>
   </div>
 
   <div class="actions d-flex align-items-baseline justify-content-between">
-    <%= link_to 'Back', items_path, class: 'btn btn-default p-2' %>
+    <%= link_to 'Back', items_path, class: 'btn btn-secondary p-2' %>
     <%= form.submit "Create", class: 'btn btn-primary p-2' %>
   </div>
 <% end %>

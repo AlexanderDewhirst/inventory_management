@@ -1,5 +1,8 @@
 class Item < ApplicationRecord
-    has_one :category
-    has_many :item_attr
+    has_many :item_attr, dependent: :destroy
     has_many :item_attributes, through: :item_attr
+
+    belongs_to :category
+
+    before_validation { self.name = self.name.downcase }
 end

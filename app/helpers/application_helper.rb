@@ -31,15 +31,15 @@ module ApplicationHelper
             },
             inventory: {
                 controller: [:items],
-                action: [:index, :new, :edit]
+                action: [:index, :new, :edit, :show]
             },
             categories: {
                 controller: [:categories],
-                action: [:index, :new, :edit]
+                action: [:index, :new, :edit, :show]
             },
             attributes: {
                 controller: [:attributes],
-                action: [:index, :new, :edit]
+                action: [:index, :new, :edit, :show]
             }
         }
 

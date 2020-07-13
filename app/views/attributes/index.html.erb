@@ -16,9 +16,9 @@
       <tbody>
         <% @attributes.each do |attribute| %>
           <tr>
-            <td><%= attribute.to_param %></td>
-            <td><%= attribute.title.humanize %>
-            <td><%= attribute.value.humanize %>
+            <td><%= link_to attribute.to_param, attribute_path(attribute) %></td>
+            <td><%= attribute.title&.humanize %>
+            <td><%= attribute.value&.humanize %>
           </tr>
         <% end %>
       </tbody>

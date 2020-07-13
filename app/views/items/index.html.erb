@@ -12,6 +12,7 @@
           <th scope='col'>ID</th>
           <th scope='col'>Name</th>
           <th scope='col'>Category</th>
+          <th scope='col' colspan='3'>Attributes</th>
           <th scope='col'></th>
         </tr>
       </thead>
@@ -19,10 +20,11 @@
       <tbody>
         <% @items.each do |item| %>
           <tr>
-            <td><%= item.to_param %></td>
-            <td><%=  %></td>
-            <td><%= item.category %></td>
-            <td><%= link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to item.to_param, item_path(item) %></td>
+            <td><%= item.name.humanize %></td>
+            <td><%= item.category&.title %></td>
+            <td colspan='3'><%=  %></td>
+            <td><%= link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
           </tr>
         <% end %>
       </tbody>
