@@ -1,4 +1,4 @@
-# BidOps Technical Interview
+# Bops Inventory Management System
 
 This goal of this project is to build a lightweight inventory system in a small web application. Users will have the ability to manage items with categories and other various properties. Property types should only be numeric or text, and the numeric types will need to be able to be aggregated.
 
