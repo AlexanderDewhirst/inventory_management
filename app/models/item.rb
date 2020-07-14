@@ -25,4 +25,8 @@ class Item < ApplicationRecord
         ItemFeature.where(item_id: self.id, feature_id: Feature.all.collect(&:id)).collect(&:feature_id)
     end
 
+    def price_in_dollars
+        self.price / 100
+    end
+
 end

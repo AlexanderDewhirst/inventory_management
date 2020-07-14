@@ -22,11 +22,9 @@ $(document).ready(function() {
         $filteredRows.hide();
 
         $total_row = $table.find('tbody tr[data-attr="totals"]');
-        columns = [4];
-        for (column = 0; column < columns.length; column++) {
-            total = calculateTotal($rows, $filteredRows, column);
-            setTotal(total, 4);
-        }
+        columns = [4, 5];
+        calculateAmountTotal($rows, $filteredRows, 4);
+        calculatePriceTotal($rows, $filteredRows, 5);
 
         if ($filteredRows.length === $rows.length) {
             $total_row.hide();
@@ -37,22 +35,45 @@ $(document).ready(function() {
     });
 });
 
-function calculateTotal(rows, filtered_rows) {
-    column = 4;
+function calculateAmountTotal(rows, filtered_rows, column) {
     row_sum = sumColumn(rows, column);
     filtered_row_sum = sumColumn(filtered_rows, column);
-    return row_sum - filtered_row_sum
-}
-
-function setTotal(amount, column) {
-    document.getElementById("data" + column).innerHTML = amount;
+    setAmountTotal(row_sum - filtered_row_sum, column)
 }
 
 function sumColumn(rows, column) {
     sum = 0;
     for (i = 0; i < rows.length; i++) {
-        var val = rows[i].getElementsByTagName('td')[column].innerHTML;
+        var val = rows[i].getElementsByTagName('td')[column].getAttribute('data-value');
         sum += isNaN(val) ? 0 : parseInt(val);
     }
     return sum;
+}
+
+function setAmountTotal(amount, column) {
+    $column_total = document.getElementById("total" + column);
+    $column_total.setAttribute('data-value', amount);
+    $column_total.innerHTML = amount;
+}
+
+function calculatePriceTotal(rows, filtered_rows, column) {
+    row_sum = calculateColumn(rows, column, 4);
+    filtered_row_sum = calculateColumn(filtered_rows, column, 4);
+    setPriceTotal(row_sum - filtered_row_sum, column);
+}
+
+function calculateColumn(rows, column, amount_column) {
+    sum = 0;
+    for (i = 0; i < rows.length; i++) {
+        var price = rows[i].getElementsByTagName('td')[column].getAttribute('data-value')
+        var amount = rows[i].getElementsByTagName('td')[amount_column].getAttribute('data-value')
+        sum += (isNaN(price) || isNaN(amount)) ? 0 : parseFloat(price * amount);
+    }
+    return sum;
+}
+
+function setPriceTotal(amount, column) {
+    $column_total = document.getElementById("total" + column);
+    $column_total.setAttribute('data-value', amount);
+    $column_total.innerHTML = "$" + amount.toFixed(2);
 }

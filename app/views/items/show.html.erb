@@ -26,6 +26,12 @@
     </div>
     <div class='p-2'>
       <p>
+        <strong>Price:</strong>
+        <%= number_to_currency(@item.price_in_dollars, precision: 2) %>
+      </p>
+    </div>
+    <div class='p-2'>
+      <p>
         <strong>User:</strong>
         <%= @item.user.email %>
       </p>
