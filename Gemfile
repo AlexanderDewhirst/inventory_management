@@ -33,6 +33,10 @@ gem 'haml'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
+  # Use RSpec for testing
+  gem 'rspec-rails', '~> 4.0.1'
+  gem 'rails-controller-testing'
+  gem 'factory_bot_rails'
   # Use DatabaseCleaner to truncate database for seeding.
   gem 'database_cleaner'
 

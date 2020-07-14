@@ -7,13 +7,13 @@
     <div class='col-6'>
       <div class='form-group'>
         <%= form.label :title %>
-        <%= form.text_field :title, value: feature.title.humanize || nil, required: true, class: 'form-control' %>
+        <%= form.text_field :title, value: feature.title&.humanize || nil, required: true, class: 'form-control' %>
       </div>
     </div>
     <div class='col-6'>
       <div class='form-group'>
         <%= form.label :value %>
-        <%= form.text_field :value, value: feature.value.humanize || nil, required: true, class: 'form-control' %>
+        <%= form.text_field :value, value: feature.value&.humanize || nil, required: true, class: 'form-control' %>
       </div>
     </div>
   </div>
