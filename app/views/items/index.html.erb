@@ -35,7 +35,7 @@
           <tr data-attr='inventory'>
             <td><%= link_to item.to_param, item_path(item) %></td>
             <td><%= item.name.humanize %></td>
-            <td><%= item.category&.title %></td>
+            <td><%= item.category.title.humanize %></td>
             <td colspan='2'><%=  item.list_of_features %></td>
             <td data-value="<%= item.amount %>"><%= item.amount %></td>
             <td data-value="<%= item.price_in_dollars %>"><%= number_to_currency(item.price_in_dollars, precision: 2) %></td>

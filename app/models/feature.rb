@@ -9,6 +9,6 @@ class Feature < ApplicationRecord
 
 
     def to_s
-        "#{title.humanize}: #{value.humanize}"
+        "#{title.humanize} - #{value.humanize}"
     end
 end
