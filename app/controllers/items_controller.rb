@@ -22,14 +22,15 @@ class ItemsController < ApplicationController
 
   # GET /items/1/edit
   def edit
+    @item.price = transform_cents_to_dollars(@item.price)
   end
 
   # POST /items
   # POST /items.json
   def create
+    params["item"]["price"] = transform_dollars_to_cents(params["item"]["price"])
     @item = current_user.items.new(item_params)
     item_features_attributes = []
-
     respond_to do |format|
       if @item.save
         if params['feature_ids'].present?
@@ -52,6 +53,7 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1
   # PATCH/PUT /items/1.json
   def update
+    params["item"]["price"] = transform_dollars_to_cents(params["item"]["price"])
     item_features_attributes = []
 
     respond_to do |format|
@@ -112,5 +114,13 @@ class ItemsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def item_params
       params.require(:item).permit(:category_id, :name, :amount, :price)
+    end
+
+    def transform_dollars_to_cents(price)
+      return (price.to_f * 100).to_i.to_s
+    end
+
+    def transform_cents_to_dollars(price)
+      return sprintf('%.2f', (price.to_f / 100)).to_s
     end
 end

@@ -26,7 +26,7 @@ class Item < ApplicationRecord
     end
 
     def price_in_dollars
-        self.price / 100
+        self.price / 100.00
     end
 
 end
