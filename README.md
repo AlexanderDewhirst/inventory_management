@@ -19,7 +19,32 @@ The application should be setup to be consumed via a standard web browser using 
 # Getting Started
 This application uses ruby 2.6.5, rails 6.0.3, PostgreSQL 12.2. 
 To get started, clone this repository:
-`git clone XXX`
+```
+git clone XXX
+```
 
 This application uses postgresql, ensure you have PostgreSQL installed and check the `database.yml` file. To build the database, execute:
-`rake db:setup`
+```
+rake db:setup
+```
+
+With bundler, we can install the dependencies located in the Gemfile by running:
+```
+bundle install
+```
+
+The application will run locally at port 3000, with the following command:
+```
+bundle exec rails server
+```
+
+Lastly, data is provided in seeds.rb and you can populate the database with:
+```
+rake db:seed
+```
+
+# Testing
+This application uses RSpec, FactoryBot, and a few other testing libraries. The tests can be executed with:
+```
+bundle exec rspec spec/.
+```
