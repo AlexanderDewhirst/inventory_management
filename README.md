@@ -20,7 +20,7 @@ The application should be setup to be consumed via a standard web browser using 
 This application uses ruby 2.6.5, rails 6.0.3, PostgreSQL 12.2. 
 To get started, clone this repository:
 ```
-git clone XXX
+git clone git@github.com:AlexanderDewhirst/inventory_management.git
 ```
 
 This application uses postgresql, ensure you have PostgreSQL installed and check the `database.yml` file. To build the database, execute:
