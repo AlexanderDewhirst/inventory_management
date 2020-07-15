@@ -190,8 +190,7 @@ RSpec.describe CategoriesController, type: :controller do
                 it { expect(flash[:alert]).to match(/There are items in this category and cannot be destroyed./) }
             end
             context "no items belong to the category" do
-                let(:items) { create(:item) }
-                let(:category) { create(:category, items: [item]) }
+                let(:category) { create(:category) }
                 before do
                     delete :destroy, params: { id: category.id }
                 end

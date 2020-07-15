@@ -33,7 +33,7 @@
       <tbody>
         <% @items.each do |item| %>
           <tr data-attr='inventory'>
-            <td><%= link_to item.to_param, item_path(item) %></td>
+            <td><%= item.to_param %></td>
             <td><%= item.name.humanize %></td>
             <td><%= item.category.title.humanize %></td>
             <td colspan='2'><%=  item.list_of_features %></td>
@@ -41,8 +41,9 @@
             <td data-value="<%= item.price_in_dollars %>"><%= number_to_currency(item.price_in_dollars, precision: 2) %></td>
             <td><%= item.user.email %></td>
             <td colspan='2'>
-              <div class='d-flex justify-content-between'>
-                <%= link_to 'Duplicate', duplicate_item_path(item), method: :post, class: 'btn btn-primary p-2' %>
+              <div class='d-flex justify-content-end'>
+                <%= link_to "View", item_path(item), class: 'btn btn-primary p-2' %>
+                <%= link_to 'Duplicate', duplicate_item_path(item), method: :post, class: 'btn btn-primary p-2 mx-1' %>
                 <%= link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger p-2' %>
               </div>
             </td>

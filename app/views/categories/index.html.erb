@@ -19,10 +19,15 @@
       <tbody>
         <% @categories.each do |category| %>
           <tr>
-            <td><%= link_to category.to_param, category_path(category) %></td>
+            <td><%= category.to_param %></td>
             <td><%= category.title.humanize %></td>
             <td colspan='3'><%= category.description %></td>
-            <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+            <td>
+              <div class='d-flex justify-content-end'>
+                <%= link_to 'View', category_path(category), class: 'btn btn-primary p-2 mr-1' %>
+                <%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger p-2' %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>

@@ -18,11 +18,16 @@
       <tbody>
         <% @features.each do |feature| %>
           <tr>
-            <td><%= link_to feature.to_param, feature_path(feature) %></td>
+            <td><%= feature.to_param %></td>
             <td><%= feature.title&.humanize %>
             <td><%= feature.value&.humanize %>
             <td><%= feature.user.email %>
-            <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+            <td>
+              <div class='d-flex justify-content-end'>
+                <%= link_to 'View', feature_path(feature), class: 'btn btn-primary p-2 mr-1' %>
+                <%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger p-2' %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>
