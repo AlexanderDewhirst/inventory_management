@@ -59,12 +59,19 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.update(item_params)
         if params['feature_ids'].present?
+          
           params['feature_ids'].each do |feature_id|
             item_features_attributes << ({ item_id: @item.id, feature_id: feature_id.to_i })
           end
+
+          # First or create ItemFeatures for item that are selected
           item_features_attributes.each do |i_f_attributes|
             ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
           end
+
+          # Destroy ItemFeatures for item that are not selected
+          feature_ids = item_features_attributes.collect{|item_feature| item_feature[:feature_id]}
+          ItemFeature.where(item_id: @item.id).where.not(feature_id: feature_ids).destroy_all
         end
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }

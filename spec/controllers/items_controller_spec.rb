@@ -169,6 +169,10 @@ RSpec.describe ItemsController, type: :controller do
                 it { expect(controller).to set_flash[:notice] }
                 it { expect(flash[:notice]).to match(/Item was successfully updated./) }
             end
+            context.skip "with new features selected" do
+            end
+            context.skip "without previous features selected" do
+            end
         end
     end
 
