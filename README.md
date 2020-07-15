@@ -23,6 +23,11 @@ To get started, clone this repository:
 git clone git@github.com:AlexanderDewhirst/inventory_management.git
 ```
 
+Then navigate to the directory:
+```
+cd inventory_management/
+```
+
 This application uses postgresql, ensure you have PostgreSQL installed and check the `database.yml` file. To build the database, execute:
 ```
 rake db:setup
@@ -33,15 +38,17 @@ With bundler, we can install the dependencies located in the Gemfile by running:
 bundle install
 ```
 
+Data is provided in seeds.rb and you can populate the database with:
+```
+rake db:seed
+```
+
 The application will run locally at port 3000, with the following command:
 ```
 bundle exec rails server
 ```
 
-Lastly, data is provided in seeds.rb and you can populate the database with:
-```
-rake db:seed
-```
+Lastly, go to http://localhost:3000/ to view the application!
 
 # Testing
 This application uses RSpec, FactoryBot, and a few other testing libraries. The tests can be executed with:
