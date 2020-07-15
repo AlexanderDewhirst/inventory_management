@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :features
   has_many :items
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true
   validates :password, presence: true
   validates :encrypted_password, presence: true
 end

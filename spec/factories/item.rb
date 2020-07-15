@@ -1,6 +1,6 @@
 FactoryBot.define do
     factory :item do
-        name { "Banana" }
+        name { "banana" }
         amount { 2 }
         price { 225 }
         user { create :user }
