@@ -21,7 +21,7 @@
           <tr>
             <td><%= link_to category.to_param, category_path(category) %></td>
             <td><%= category.title.humanize %></td>
-            <td colpan='3'><%= category.description %></td>
+            <td colspan='3'><%= category.description %></td>
             <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
           </tr>
         <% end %>

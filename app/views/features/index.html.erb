@@ -11,6 +11,7 @@
           <th scope='col'>Title</th>
           <th scope='col'>Value</th>
           <th scope='col'>User</th>
+          <td scope='col'></td>
         </tr>
       </thead>
 
@@ -21,6 +22,7 @@
             <td><%= feature.title&.humanize %>
             <td><%= feature.value&.humanize %>
             <td><%= feature.user.email %>
+            <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
           </tr>
         <% end %>
       </tbody>
