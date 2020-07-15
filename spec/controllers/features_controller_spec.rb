@@ -177,13 +177,29 @@ RSpec.describe FeaturesController, type: :controller do
             it { expect(response).to redirect_to new_user_session_path }
         end
         context "when the user is authenticated", authenticated: true do
-            let(:feature) { create(:feature) }
-            before do
-                delete :destroy, params: { id: feature.id }
-            end
+            context "the feature belongs to an item" do
+                let(:item) { create(:item) }
+                let(:feature) { create(:feature, items: [item] ) }
+                before do
+                    delete :destroy, params: { id: feature.id }
+                end
 
-            it { expect(response).to have_http_status(:redirect) }
-            it { expect(response).to redirect_to features_path }
+                it { expect(response).to have_http_status(:redirect) }
+                it { expect(response).to redirect_to features_path }
+                it { expect(controller).to set_flash[:alert] }
+                it { expect(flash[:alert]).to match(/There are items with this feature and cannot be destroyed./) }
+            end
+            context "the feature does not belong to any items" do
+                let(:feature) { create(:feature) }
+                before do
+                    delete :destroy, params: { id: feature.id }
+                end
+
+                it { expect(response).to have_http_status(:redirect) }
+                it { expect(response).to redirect_to features_path }
+                it { expect(controller).to set_flash[:notice] }
+                it { expect(flash[:notice]).to match(/Feature was successfully destroyed./) }
+            end
         end
     end
 end

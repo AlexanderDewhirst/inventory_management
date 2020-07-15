@@ -178,13 +178,29 @@ RSpec.describe CategoriesController, type: :controller do
             it { expect(response).to redirect_to new_user_session_path }
         end
         context "when the user is authenticated", authenticated: true do
-            let(:category) { create(:category) }
-            before do
-                delete :destroy, params: { id: category.id }
+            context "an item belongs to the category" do
+                let(:item) { create(:item) }
+                let(:category) { create(:category, items: [item]) }
+                before do
+                    delete :destroy, params: { id: category.id }
+                end
+                it { expect(response).to have_http_status(:redirect) }
+                it { expect(response).to redirect_to categories_path }
+                it { expect(controller).to set_flash[:alert] }
+                it { expect(flash[:alert]).to match(/There are items in this category and cannot be destroyed./) }
             end
+            context "no items belong to the category" do
+                let(:items) { create(:item) }
+                let(:category) { create(:category, items: [item]) }
+                before do
+                    delete :destroy, params: { id: category.id }
+                end
 
-            it { expect(response).to have_http_status(:redirect) }
-            it { expect(response).to redirect_to categories_path }
+                it { expect(response).to have_http_status(:redirect) }
+                it { expect(response).to redirect_to categories_path }
+                it { expect(controller).to set_flash[:notice] }
+                it { expect(flash[:notice]).to match(/Category was successfully destroyed./) }
+            end
         end
     end
 end

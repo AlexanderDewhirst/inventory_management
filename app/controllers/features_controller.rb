@@ -55,10 +55,16 @@ class FeaturesController < ApplicationController
   # DELETE /features/1
   # DELETE /features/1.json
   def destroy
-    @feature.destroy
-    respond_to do |format|
-      format.html { redirect_to features_url, notice: 'Feature was successfully destroyed.' }
-      format.json { head :no_content }
+    if @feature.items.any?
+      respond_to do |format|
+        format.html { redirect_to features_path, alert: 'There are items with this feature and cannot be destroyed.' }
+      end
+    else
+      @feature.destroy
+      respond_to do |format|
+        format.html { redirect_to features_path, notice: 'Feature was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 
