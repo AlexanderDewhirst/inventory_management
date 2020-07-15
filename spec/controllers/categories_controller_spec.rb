@@ -96,14 +96,19 @@ RSpec.describe CategoriesController, type: :controller do
         end
         context "when the user is authenticated", authenticated: true do
             context "with invalid params" do
+                let(:params) { {} }
+                it "raises an exception" do
+                    expect{ post( :create, params: params ) }.to raise_error ActionController::ParameterMissing
+                end
+            end
+            context "with unaccepted params" do
                 let(:params) { {category: {title: ''}} }
                 before do
                     post :create, params: params
                 end
 
-                it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to edit_category_path(assigns(:category)) }
-                it { expect(assigns(:category)).to be_instance_of(Category) }
+                it { expect(response).to have_http_status(:ok) }
+                it { expect(response).to render_template :new }
             end
             context "with valid params" do
                 let(:params) { {category: {title: 'meats', description: 'Foods contained within the meat food group.'}} }
@@ -113,6 +118,8 @@ RSpec.describe CategoriesController, type: :controller do
 
                 it { expect(response).to have_http_status(:redirect) }
                 it { expect(response).to redirect_to category_path(assigns(:category)) }
+                it { expect(controller).to set_flash[:notice] }
+                it { expect(flash[:notice]).to match(/Category was successfully created./) }
             end
         end
     end
@@ -131,14 +138,20 @@ RSpec.describe CategoriesController, type: :controller do
         context "when the user is authenticated", authenticated: true do
             context "with invalid params" do
                 let(:category) { create(:category) }
-                let(:params) { {id: category.id, category: {title: ''}} }
+                let(:params) { {id: category.id} }
+                it "raises an exception" do
+                    expect{ put( :update, params: params ) }.to raise_error ActionController::ParameterMissing
+                end
+            end
+            context "with unaccepted params" do
+                let(:category) { create(:category) }
+                let(:params) { {id: category.id, category: {title: '', description: ''}} }
                 before do
                     put :update, params: params
                 end
 
-                it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to edit_category_path(assigns(:category)) }
-                it { expect(assigns(:category)).to be_instance_of(Category) }
+                it { expect(response).to have_http_status(:ok) }
+                it { expect(response).to render_template :edit}
             end
             context "with valid params" do
                 let(:category) { create(:category) }

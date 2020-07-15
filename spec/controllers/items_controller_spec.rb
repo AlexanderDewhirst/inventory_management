@@ -96,23 +96,31 @@ RSpec.describe ItemsController, type: :controller do
         end
         context "when the user is authenticated", authenticated: true do
             context "with invalid params" do
-                let(:params) { {category: {title: ''}} }
+                let(:params) { {} }
+                it "raises an exception" do
+                    expect{ post( :create, params: params ) }.to raise_error ActionController::ParameterMissing
+                end
+            end
+            context "with unaccepted params" do
+                let(:params) { {item: {foo: ''}} }
                 before do
                     post :create, params: params
                 end
 
-                it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to edit_category_path(assigns(:category)) }
-                it { expect(assigns(:category)).to be_instance_of(Category) }
+                it { expect(response).to have_http_status(:ok) }
+                it { expect(response).to render_template :new }
             end
             context "with valid params" do
-                let(:params) { {category: {title: 'meats', description: 'Foods contained within the meat food group.'}} }
+                let(:category) { create(:category) }
+                let(:params) { {item: {name: 'cucumber', price: 125, amount: 1, category_id: category.id}} }
                 before do
                     post :create, params: params
                 end
 
                 it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to category_path(assigns(:category)) }
+                it { expect(response).to redirect_to item_path(assigns(:item)) }
+                it { expect(controller).to set_flash[:notice] }
+                it { expect(flash[:notice]).to match(/Item was successfully created./) }
             end
         end
     end
@@ -130,18 +138,27 @@ RSpec.describe ItemsController, type: :controller do
         end
         context "when the user is authenticated", authenticated: true do
             context "with invalid params" do
-                let(:item) { create(:item) }
-                let(:params) { {id: item.id, item: {name: ''}} }
+                let(:category) { create(:category) }
+                let(:item) { create(:item, category: category) }
+                let(:params) { {id: item.id} }
+                it "raises an exception" do
+                    expect{ put( :update, params: params ) }.to raise_error ActionController::ParameterMissing
+                end
+            end
+            context "with unaccepted params" do
+                let(:category) { create(:category) }
+                let(:item) { create(:item, category: category) }
+                let(:params) { {id: item.id, item: {name: 'Banana', amount: -1, price: 99}} }
                 before do
                     put :update, params: params
                 end
 
-                it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to edit_item_path(assigns(:item)) }
-                it { expect(assigns(:item)).to be_instance_of(Item) }
+                it { expect(response).to have_http_status(:ok) }
+                it { expect(response).to render_template :edit }
             end
             context "with valid params" do
-                let(:item) { create(:item) }
+                let(:category) { create(:category) }
+                let(:item) { create(:item, category: category) }
                 let(:params) { {id: item.id, item: {name: 'Banana', amount: 1, price: 99}} }
                 before do
                     put :update, params: params
@@ -149,6 +166,8 @@ RSpec.describe ItemsController, type: :controller do
                 
                 it { expect(response).to have_http_status(:redirect) }
                 it { expect(response).to redirect_to item_path(assigns(:item)) }
+                it { expect(controller).to set_flash[:notice] }
+                it { expect(flash[:notice]).to match(/Item was successfully updated./) }
             end
         end
     end
@@ -176,6 +195,15 @@ RSpec.describe ItemsController, type: :controller do
 
     describe "POST #duplicate" do
         context "when the user is not authenticated", authenticated: false do
+            let(:item) { create(:item) }
+            before do
+                post :duplicate, params: { id: item.id }
+            end
+
+            it { expect(response).to have_http_status(:redirect) }
+            it { expect(response).to redirect_to new_user_session_path }
+        end
+        context "when the user is authenticated", authenticated: true do
             let(:item) { create(:item) }
             before do
                 post :duplicate, params: { id: item.id }

@@ -96,14 +96,19 @@ RSpec.describe FeaturesController, type: :controller do
         end
         context "when the user is authenticated", authenticated: true do
             context "with invalid params" do
-                let(:params) { {feature: {title: '', value: ''}} }
+                let(:params) { {} }
+                it "raises an exception" do
+                    expect{ post( :create, params: params ) }.to raise_error ActionController::ParameterMissing
+                end
+            end
+            context "with unaccepted params" do
+                let(:params) { {feature: {title: ''}} }
                 before do
                     post :create, params: params
                 end
 
-                it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to edit_feature_path(assigns(:feature)) }
-                it { expect(assigns(:feature)).to be_instance_of(Feature) }
+                it { expect(response).to have_http_status(:ok) }
+                it { expect(response).to render_template :new }
             end
             context "with valid params" do
                 let(:params) { {feature: {title: 'color', value: 'red'}} }
@@ -113,6 +118,8 @@ RSpec.describe FeaturesController, type: :controller do
 
                 it { expect(response).to have_http_status(:redirect) }
                 it { expect(response).to redirect_to feature_path(assigns(:feature)) }
+                it { expect(controller).to set_flash[:notice] }
+                it { expect(flash[:notice]).to match(/Feature was successfully created./) }
             end
         end
     end
@@ -131,14 +138,20 @@ RSpec.describe FeaturesController, type: :controller do
         context "when the user is authenticated", authenticated: true do
             context "with invalid params" do
                 let(:feature) { create(:feature) }
-                let(:params) { {id: feature.id, feature: {title: '', value: ''}} }
+                let(:params) { {id: feature.id} }
+                it "raises an exception" do
+                    expect{ put( :update, params: params ) }.to raise_error ActionController::ParameterMissing
+                end
+            end
+            context "with unaccepted params" do
+                let(:feature) { create(:feature) }
+                let(:params) { {id: feature.id, feature: {title: '', value: "integer"}} }
                 before do
                     put :update, params: params
                 end
 
-                it { expect(response).to have_http_status(:redirect) }
-                it { expect(response).to redirect_to edit_feature_path(assigns(:feature)) }
-                it { expect(assigns(:feature)).to be_instance_of(Feature) }
+                it { expect(response).to have_http_status(:ok) }
+                it { expect(response).to render_template :edit }
             end
             context "with valid params" do
                 let(:feature) { create(:feature) }

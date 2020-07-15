@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    params["item"]["price"] = transform_dollars_to_cents(params["item"]["price"])
+    params["item"]["price"] = transform_dollars_to_cents(params["item"]["price"]) if params["item"].present? && params["item"]["price"].present?
     @item = current_user.items.new(item_params)
     item_features_attributes = []
     respond_to do |format|
@@ -37,9 +37,9 @@ class ItemsController < ApplicationController
           params['feature_ids'].each do |feature_id|
             item_features_attributes << ({ item_id: @item.id, feature_id: feature_id.to_i })
           end
-        end
-        item_features_attributes.each do |i_f_attributes|
-          ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
+          item_features_attributes.each do |i_f_attributes|
+            ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
+          end
         end
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
@@ -53,7 +53,7 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1
   # PATCH/PUT /items/1.json
   def update
-    params["item"]["price"] = transform_dollars_to_cents(params["item"]["price"])
+    params["item"]["price"] = transform_dollars_to_cents(params["item"]["price"]) if params["item"].present? && params["item"]["price"].present?
     item_features_attributes = []
 
     respond_to do |format|
@@ -62,9 +62,9 @@ class ItemsController < ApplicationController
           params['feature_ids'].each do |feature_id|
             item_features_attributes << ({ item_id: @item.id, feature_id: feature_id.to_i })
           end
-        end
-        item_features_attributes.each do |i_f_attributes|
-          ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
+          item_features_attributes.each do |i_f_attributes|
+            ItemFeature.where(item_id: i_f_attributes[:item_id], feature_id: i_f_attributes[:feature_id]).first_or_create!
+          end
         end
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }

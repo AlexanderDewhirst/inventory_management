@@ -5,7 +5,11 @@ class Item < ApplicationRecord
     belongs_to :category
     belongs_to :user
 
-    before_validation { self.name = self.name.downcase }
+    before_validation { self.name = self.name&.downcase }
+
+    validates :name, presence: true, allow_blank: false
+    validates :amount, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+    validates :price, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
     def list_of_features
         output_str = ""
