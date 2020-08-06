@@ -43,7 +43,7 @@ group :development, :test do
 
   # Use Better Errors for development debugging
   gem 'better_errors'
-  gem "binding_of_caller"
+  gem 'binding_of_caller'
   # Call 'binding.pry'. Runtime developer console
   gem 'pry', '~> 0.12.2'
   gem 'pry-remote'
